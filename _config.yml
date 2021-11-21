@@ -10,7 +10,7 @@ baseurl: ''
 # The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
 # If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
 # otherwise, the layout language will use the default value of 'en'.
-lang: en
+lang: zh-CN
 
 # Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
 timezone: Asia/Shanghai
@@ -18,9 +18,9 @@ timezone: Asia/Shanghai
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy                          # the main title
+title: 下南的博客                          # the main title
 
-tagline: A text-focused Jekyll theme   # it will display as the sub-title
+tagline: 这世界真奇妙   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, portfolio, sidebar,
@@ -28,23 +28,23 @@ description: >-                        # used by seo meta and the atom feed
   and focuses on text presentation.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: ''
+url: 'https://www.shynan.cn'
 
 github:
-  username: github_username             # change to your github username
+  username: shynan             # change to your github username
 
 twitter:
-  username: twitter_username            # change to your twitter username
+  username: shynan            # change to your twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: your_full_name
-  email: example@doamin.com             # change to your email address
+  name: 下南
+  email: shynan.wang@foxmail.com             # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username      # change to your twitter homepage
-    - https://github.com/username       # change to your github homepage
+    - https://twitter.com/shynan      # change to your twitter homepage
+    - https://github.com/shynan       # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
@@ -82,7 +82,7 @@ theme_mode:   # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar:  'assets/img/favicons/avatar_128.png'
 
 # boolean type, the global switch for ToC in posts.
 toc: true
@@ -91,6 +91,22 @@ disqus:
   comments: false  # boolean type, the global switch for posts comments.
   shortname: ''    # Fill with your Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
 
+gitalk:
+  comments: false
+  clientID: e7e067295760b88d38eb
+  Secret: adec4649d6f07db3c088dc535dae20b0fdc10637
+  repo: shynan.github.io
+  owner: shynan
+  admin: shynan
+  distractionFreeMode: true
+  
+twikoo:
+  comments: true
+  envId: twikoo-2g2bd5dv132d0775
+  
+busuanzi:
+  enable: true
+  
 paginate: 10
 
 # ------------ The following options are not recommended to be modified ------------------

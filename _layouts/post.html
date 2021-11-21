@@ -34,7 +34,12 @@ layout: default
 
           <!-- read time -->
           {% include read-time.html content=content prompt=true %}
-
+		  
+		  <!-- busuanzi阅读统计 -->
+		  {% if site.busuanzi.enable %}
+			{% include busuanzi.html %}
+		  {% endif %}
+		  
           <!-- page views -->
           {% if site.google_analytics.pv.proxy_endpoint or site.google_analytics.pv.cache_path %}
           <span id="pv" class="pageviews">
@@ -135,7 +140,14 @@ layout: default
     {% if site.disqus.comments and page.comments %}
       {% include disqus.html %}
     {% endif %}
+	
+	{% if site.gitalk.comments and page.comments %}
+      {% include gitalk.html %}
+    {% endif %}
 
+	{% if site.twikoo.comments and page.comments %}
+      {% include twikoo.html %}
+    {% endif %}
     </div> <!-- #post-extend-wrapper -->
 
   </div> <!-- .col-* -->
