@@ -121,7 +121,7 @@ sudo curl -0 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | g
 sudo vim /etc/systemd/system/chinadns.service
 ```
 
-输入如下内容  
+输入以下内容  
 
 ```c
 Description=chinadns
@@ -314,4 +314,6 @@ sudo route add default gw 192.168.2.1 eth0
 2. 设置路由器联网方式为静态ip方式
 3. 配置路由器wan口的网关地址和dns地址，都设为树莓派地址（192.168.2.4）
 4. 保存设置后重启路由器
-5. 通过路由器连接上网，测试可以访问[www.google.com](https://www.google.com/),可以愉快的查资料了！！！
+5. 通过路由器连接上网，测试可以访问[www.google.com](https://www.google.com/)  
+
+恭喜可以愉快的查资料了！！！
