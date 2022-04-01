@@ -8,7 +8,7 @@ pin: true
 ---
 ## 准备工作
 树莓派的系统烧录就不在这里介绍了，网上一大堆资料需要的可以去找。这里假设你已经有了一个烧录好系统的树莓派。我这里使用的是树莓派4B，内存大小是2G。想要实现的目的是所有连上家里路由器的设备都可以无感访问内外网。网络结构如下图所示：
-![图1](https://gitee.com/shynan/tuchuang/raw/master/img/20220401170154.png)
+![图1](https://picgo-1300337066.cos.ap-shanghai.myqcloud.com/20220401170154.png)
 ## shadowsocks-libev
 ### 安装配置ss
 ```c
