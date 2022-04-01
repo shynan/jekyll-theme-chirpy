@@ -23,7 +23,7 @@ sudo apt-get install shadowsocks-libev
 sudo vim /etc/shadowsocks-libev/config.json
 ```  
 
-填入一下内容:  
+填入以下内容:  
 
 ```c
 {
