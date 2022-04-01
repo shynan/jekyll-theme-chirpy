@@ -1,25 +1,30 @@
 ---
 title: 树莓派+shadowsocks实现局域网科学上网
 author: shynan
-date: 2022-04-01 18:00:00 +0800
+date: 2022-04-01 20:05:02 +0800
 categories: [Blogging, Tutorial]
-tags: [树莓派 shadowsocks dnsmasq]
+tags: [树莓派, shadowsocks, dnsmasq]
 pin: true
 ---
 ## 准备工作
 树莓派的系统烧录就不在这里介绍了，网上一大堆资料需要的可以去找。这里假设你已经有了一个烧录好系统的树莓派。我这里使用的是树莓派4B，内存大小是2G。想要实现的目的是所有连上家里路由器的设备都可以无感访问内外网。网络结构如下图所示：
 ![图1](https://gitee.com/shynan/tuchuang/raw/master/img/20220401170154.png)
-## 安装shadowsocks-libev
+## shadowsocks-libev
+### 安装配置ss
 ```c
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install shadowsocks-libev
-```
-在/etc/shadowsocks-libev下创建shadowsocks的配置文件config.json
+```  
+
+在/etc/shadowsocks-libev下创建shadowsocks的配置文件config.json  
+
 ```c
 sudo vim /etc/shadowsocks-libev/config.json
-```
-填入一下内容:
+```  
+
+填入一下内容:  
+
 ```c
 {
     "server":"xxx.xxx.xxx.xxx",
@@ -34,7 +39,8 @@ sudo vim /etc/shadowsocks-libev/config.json
 ```
 * "xxx.xxx.xxx.xxx"替换为服务器的ip,
 * server_port段填ss的服务器端口，如8888
-* password段和method分别对应密码和加密方式
+* password段和method分别对应密码和加密方式  
+
 ### 创建ss服务并允许自启动
 
 ```c
@@ -66,27 +72,34 @@ sudo systemctl enable ss-redir.service
 /* 启动 ss-redir */
 sudo systemctl start ss-redir.service
 ```
-## 使用dnsmasq和chinadns防止DNS污染
-* 安装dnsmasq
+## 使用dnsmasq和chinadns防止DNS污染  
+
+### 安装配置dnsmasq
+
 ```c
 sudo apt-get install dnsmasq
 ```
-* 修改dnsmasq配置文件
-```
+
+* 修改dnsmasq配置文件  
+
+```c
 sudo vim /etc/dnsmasq.conf
 ```
-最后追加如下内容
+最后追加如下内容  
+
 ```c
 no-resolv
 server=127.0.0.1#5354
 ```
 
-* dnsmasq自启动服务
+### dnsmasq自启动服务  
+
 ```c
 sudo systemctl enable dnsmasq.service
 sudo systemctl start dnsmasq.service
 ```
-* 安装chinadns
+### 安装chinadns  
+
 ```c
 sudo wget https://github.com/shadowsocks/ChinaDNS/releases/download/1.3.2/chinadns-1.3.2.tar.gz
 sudo tar -xvf chinadns-1.3.2.tar.gz
@@ -94,16 +107,22 @@ cd chinadns-1.3.2
 ./configure && make
 sudo cp ./src/chinadns /usr/local/bin
 ```
-* 更新chnroute.txt列表
+### 更新chnroute.txt列表  
+
 chnroute.txt中存放的是国内范围的ip地址，可能不是最新的版本，所以最好更新一下。
+
 ```c
 sudo curl -0 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | grep ipv4 | grep CN | awk -F\| '{ printf("%s/%d\n", $4, 32-log($5)/log(2)) }' > /etc/chnroute.txt
 ```
-* 创建chinadns自启动服务
+
+### 创建chinadns自启动服务  
+
 ```c
 sudo vim /etc/systemd/system/chinadns.service
 ```
-输入如下内容
+
+输入如下内容  
+
 ```c
 Description=chinadns
 
@@ -121,28 +140,39 @@ KillMode=process
 [Install]
 WantedBy=multi-user.target
 ```
-使能并启动chinadns
+
+### 使能并启动chinadns  
+
 ```c
 sudo systemctl daemon-reload
 sudo systemctl enable chinadns.service
 sudo systemctl start chinadns.service
 ```
-* 测试一下dns能否使用
+
+* 测试一下dns能否使用  
+
 ```c
 sudo apt-get install dnsutils
 sudo dig www.pixiv.net @127.0.0.1 -p 53
 ```
-如果有内容返回，说明dns可以工作了
+如果有内容返回，说明dns可以工作了  
+
 ## 使用ipset和iptables设置规则转发
-* 安装ipset
+
+### 安装ipset  
+
 ```c
 sudo apt-get install ipset
 ```
-* 创建配置脚本
+
+### 创建配置脚本  
+
 ```c
 sudo vim /usr/local/bin/ipset_generate.sh
 ```
-填入以下内容
+
+填入以下内容  
+
 ```c
 #!/bin/sh
 
@@ -223,12 +253,17 @@ fi
 # 持久化 iptables 规则
 iptables-save > /etc/iptables.tproxy
 ```
-其中xxx.xxx.xxx.xxx替换为自己服务器ip
-* 创建ipset自启动服务
+
+其中xxx.xxx.xxx.xxx替换为自己服务器ip  
+
+### 创建ipset自启动服务  
+
 ```c
 sudo vim /etc/systemd/system/ipset_iptables.service
 ```
-填入以下内容：
+
+填入以下内容： 
+
 ```c
 Description=ipset_iptables
 
@@ -246,24 +281,35 @@ KillMode=process
 [Install]
 WantedBy=multi-user.target
 ```
-* 使能并开启ipset_iptables服务
+
+### 使能并开启ipset_iptables服务  
+
 ```c
+sudo systemctl daemon-reload
 sudo systemctl enable ipset_iptables.service
 sudo systemctl start ipset_iptables.service
 ```
-## 修改树莓派ip
-```
+
+## 修改树莓派ip  
+
+```c
 sudo vim /boot/cmdline.txt
 ```
-添加一条内容:
+
+添加一条内容:  
+
 ```c
  ip=192.168.2.4
 ```
 
-```
+再设置默认网关为光猫的ip  
+
+```c
 sudo route add default gw 192.168.2.1 eth0
 ```
-## 测试效果
+
+## 测试效果  
+
 1. 树莓派和路由器都用网线连接到光猫
 2. 设置路由器联网方式为静态ip方式
 3. 配置路由器wan口的网关地址和dns地址，都设为树莓派地址（192.168.2.4）
