@@ -1,7 +1,7 @@
 ---
 title: 树莓派+shadowsocks实现局域网科学上网
 author: shynan
-date: 2022-04-01 20:05:02 +0800
+date: 2022-04-01 21:05:02 +0800
 categories: [Blogging, Tutorial]
 tags: [树莓派, shadowsocks, dnsmasq]
 pin: true
